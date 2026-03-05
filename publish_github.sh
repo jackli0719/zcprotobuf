@@ -5,6 +5,20 @@ repo_input="${1:-}"
 branch="${2:-main}"
 visibility="${VISIBILITY:-public}" # public|private
 default_repo="$(basename "$PWD")"
+workspace_root="$(cd "$(dirname "$0")/.." && pwd)"
+
+sync_from_zero_docs_if_exists() {
+  local src_dir="${workspace_root}/from_zero"
+  local dst_dir="${workspace_root}/zcprotobuf/docs/from_zero"
+
+  if [[ ! -d "$src_dir" ]]; then
+    return 0
+  fi
+
+  mkdir -p "$dst_dir"
+  cp "${src_dir}/ZCPROTOBUF_FROM_ZERO.md" "${dst_dir}/ZCPROTOBUF_FROM_ZERO.md"
+  cp "${src_dir}/README.md" "${dst_dir}/README.md"
+}
 
 if ! command -v gh >/dev/null 2>&1; then
   echo "Error: gh CLI not found. Install GitHub CLI first."
@@ -19,6 +33,8 @@ fi
 if [[ ! -d .git ]]; then
   git init
 fi
+
+sync_from_zero_docs_if_exists
 
 git add .
 if ! git diff --cached --quiet; then

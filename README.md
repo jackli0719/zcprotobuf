@@ -64,3 +64,10 @@ q.ParseFromString(raw)
 - Main gain is CPU/latency/throughput, not payload size.
 - With same schema and wire format, message size is unchanged (`bytes_len` unchanged), so bandwidth savings are near `0%`.
 - Latest benchmark summary is tracked in [`PERFORMANCE_ANALYSIS.md`](/Users/liwei/res/proj/study/cprotobuf/PERFORMANCE_ANALYSIS.md).
+
+## From Zero Documentation
+
+`from_zero` docs are packaged in this repository for easier user access:
+
+- `docs/from_zero/README.md`
+- `docs/from_zero/ZCPROTOBUF_FROM_ZERO.md`
