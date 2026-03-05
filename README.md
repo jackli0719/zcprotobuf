@@ -5,6 +5,12 @@
 
 `zcprotobuf` keeps the original `cprotobuf` programming model while moving codec hotspots to Zig.
 
+## Base Library Note
+
+- `cprotobuf` (optimized baseline library): `https://github.com/yihuang/cprotobuf`
+- `zcprotobuf` is built on top of this optimized baseline and focuses on Zig-based codec acceleration.
+- Contact: `lw9956164@gmail.com`
+
 Compatible object model:
 - `ProtoEntity`
 - `Field`

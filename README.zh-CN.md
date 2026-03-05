@@ -5,6 +5,12 @@
 
 `zcprotobuf` 在保持 `cprotobuf` 编程模型兼容的前提下，将核心编解码热点迁移到 Zig。
 
+## 基础库说明
+
+- `cprotobuf`（已优化完成的基础库）：`https://github.com/yihuang/cprotobuf`
+- `zcprotobuf` 基于该优化版基础库继续做 Zig 编解码加速。
+- 联系邮箱：`lw9956164@gmail.com`
+
 兼容对象模型：
 - `ProtoEntity`
 - `Field`
