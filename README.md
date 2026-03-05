@@ -91,6 +91,17 @@ Key points:
 - `zcprotobuf_native` shows the upper bound of Zig kernel performance under the same wire format.
 - `reduction = (1 - impl_us_per_op / cprotobuf_us_per_op) * 100%`.
 
+### Speedup Multiple vs cprotobuf (x faster)
+
+| implementation | encode speedup (x) | decode speedup (x) |
+|---|---:|---:|
+| zcprotobuf | 1.0280x | 1.2670x |
+| zcprotobuf_native | 22.9642x | 6.6398x |
+| go | 3.3716x | 1.5633x |
+| zig | 15.6681x | 14.1951x |
+
+`speedup_x = cprotobuf_us_per_op / impl_us_per_op`
+
 ## From Zero Documentation
 
 `from_zero` docs are packaged in this repository for easier user access:

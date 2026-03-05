@@ -91,6 +91,17 @@ q.ParseFromString(raw)
 - `zcprotobuf_native` 体现了在相同 wire format 下 Zig 内核的性能上限。
 - `降幅 = (1 - impl_us_per_op / cprotobuf_us_per_op) * 100%`。
 
+### 相对 cprotobuf 的速度倍数（x）
+
+| 实现 | encode 速度倍数 (x) | decode 速度倍数 (x) |
+|---|---:|---:|
+| zcprotobuf | 1.0280x | 1.2670x |
+| zcprotobuf_native | 22.9642x | 6.6398x |
+| go | 3.3716x | 1.5633x |
+| zig | 15.6681x | 14.1951x |
+
+`速度倍数 = cprotobuf_us_per_op / impl_us_per_op`
+
 ## From Zero 文档
 
 `from_zero` 文档已打包进本仓库，便于用户查阅：
