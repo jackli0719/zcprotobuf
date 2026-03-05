@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -lt 1 ]]; then
-  echo "Usage: $0 <github_repo_url> [branch]"
-  echo "Example: $0 https://github.com/your-account/zcprotobuf.git main"
+repo_input="${1:-}"
+branch="${2:-main}"
+visibility="${VISIBILITY:-public}" # public|private
+default_repo="$(basename "$PWD")"
+
+if ! command -v gh >/dev/null 2>&1; then
+  echo "Error: gh CLI not found. Install GitHub CLI first."
   exit 1
 fi
 
-repo_url="$1"
-branch="${2:-main}"
+if ! gh auth status >/dev/null 2>&1; then
+  echo "Error: gh is not logged in. Run: gh auth login"
+  exit 1
+fi
 
 if [[ ! -d .git ]]; then
   git init
@@ -16,10 +22,28 @@ fi
 
 git add .
 if ! git diff --cached --quiet; then
-  git commit -m "init zcprotobuf project"
+  git commit -m "chore: auto publish update"
 fi
 
 git branch -M "$branch"
+
+owner="$(gh api user -q .login)"
+
+if [[ -z "$repo_input" ]]; then
+  full_repo="${owner}/${default_repo}"
+elif [[ "$repo_input" == http*://github.com/* ]]; then
+  full_repo="$(echo "$repo_input" | sed -E 's#https?://github.com/##; s#\.git$##')"
+elif [[ "$repo_input" == */* ]]; then
+  full_repo="$repo_input"
+else
+  full_repo="${owner}/${repo_input}"
+fi
+
+repo_url="https://github.com/${full_repo}.git"
+
+if ! gh repo view "$full_repo" >/dev/null 2>&1; then
+  gh repo create "$full_repo" "--${visibility}" --source=. --remote=origin
+fi
 
 if git remote get-url origin >/dev/null 2>&1; then
   git remote set-url origin "$repo_url"
@@ -28,5 +52,4 @@ else
 fi
 
 git push -u origin "$branch"
-
-echo "Pushed to $repo_url on branch $branch"
+echo "Pushed: $full_repo ($branch)"
