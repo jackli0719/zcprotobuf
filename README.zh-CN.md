@@ -78,17 +78,18 @@ q.ParseFromString(raw)
 
 来源：`./benchmark/bench_advantage_compare.sh`（`benchmark/results_adv`）
 
-| 实现 | encode (us/op) | decode (us/op) | 相对 cprotobuf encode | 相对 cprotobuf decode |
-|---|---:|---:|---:|---:|
-| cprotobuf | 5.590112 | 3.210502 | 基线 | 基线 |
-| zcprotobuf | 5.437756 | 2.533883 | +2.73% | +21.08% |
-| zcprotobuf_native | 0.243427 | 0.483521 | +95.65% | +84.94% |
-| go | 1.657986 | 2.053653 | +70.34% | +36.03% |
-| zig | 0.356783 | 0.226169 | +93.62% | +92.96% |
+| 实现 | encode (us/op) | decode (us/op) | encode 比值 (impl/cprotobuf) | decode 比值 (impl/cprotobuf) | encode 降幅 | decode 降幅 |
+|---|---:|---:|---:|---:|---:|---:|
+| cprotobuf | 5.590112 | 3.210502 | 1.000000 | 1.000000 | 基线 | 基线 |
+| zcprotobuf | 5.437756 | 2.533883 | 0.972745 | 0.789248 | 2.7255% | 21.0752% |
+| zcprotobuf_native | 0.243427 | 0.483521 | 0.043546 | 0.150606 | 95.6454% | 84.9394% |
+| go | 1.657986 | 2.053653 | 0.296593 | 0.639667 | 70.3407% | 36.0333% |
+| zig | 0.356783 | 0.226169 | 0.063824 | 0.070447 | 93.6176% | 92.9553% |
 
 要点：
-- `zcprotobuf` 相对 `cprotobuf`：`encode` 提升约 `2.73%`，`decode` 提升约 `21.08%`。
+- `zcprotobuf` 相对 `cprotobuf`：`encode` 提升 `2.7255%`，`decode` 提升 `21.0752%`。
 - `zcprotobuf_native` 体现了在相同 wire format 下 Zig 内核的性能上限。
+- `降幅 = (1 - impl_us_per_op / cprotobuf_us_per_op) * 100%`。
 
 ## From Zero 文档
 

@@ -78,17 +78,18 @@ q.ParseFromString(raw)
 
 Source: `./benchmark/bench_advantage_compare.sh` (`benchmark/results_adv`)
 
-| implementation | encode (us/op) | decode (us/op) | vs cprotobuf encode | vs cprotobuf decode |
-|---|---:|---:|---:|---:|
-| cprotobuf | 5.590112 | 3.210502 | baseline | baseline |
-| zcprotobuf | 5.437756 | 2.533883 | +2.73% | +21.08% |
-| zcprotobuf_native | 0.243427 | 0.483521 | +95.65% | +84.94% |
-| go | 1.657986 | 2.053653 | +70.34% | +36.03% |
-| zig | 0.356783 | 0.226169 | +93.62% | +92.96% |
+| implementation | encode (us/op) | decode (us/op) | encode ratio (impl/cprotobuf) | decode ratio (impl/cprotobuf) | encode reduction | decode reduction |
+|---|---:|---:|---:|---:|---:|---:|
+| cprotobuf | 5.590112 | 3.210502 | 1.000000 | 1.000000 | baseline | baseline |
+| zcprotobuf | 5.437756 | 2.533883 | 0.972745 | 0.789248 | 2.7255% | 21.0752% |
+| zcprotobuf_native | 0.243427 | 0.483521 | 0.043546 | 0.150606 | 95.6454% | 84.9394% |
+| go | 1.657986 | 2.053653 | 0.296593 | 0.639667 | 70.3407% | 36.0333% |
+| zig | 0.356783 | 0.226169 | 0.063824 | 0.070447 | 93.6176% | 92.9553% |
 
 Key points:
-- `zcprotobuf` improves `encode` by about `2.73%` and `decode` by about `21.08%` vs `cprotobuf`.
+- `zcprotobuf` improves `encode` by `2.7255%` and `decode` by `21.0752%` vs `cprotobuf`.
 - `zcprotobuf_native` shows the upper bound of Zig kernel performance under the same wire format.
+- `reduction = (1 - impl_us_per_op / cprotobuf_us_per_op) * 100%`.
 
 ## From Zero Documentation
 
